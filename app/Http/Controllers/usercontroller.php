@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Phone;
+use App\Role;
+
+
 
 class usercontroller extends Controller
 {
@@ -83,4 +87,15 @@ class usercontroller extends Controller
     {
         //
     }
+
+    public function userwithphone(){
+        //return User::with('phone')->get(); one to one
+        //return User::with('phones')->get(); one to many
+        //return Phone::with('user')->get(); inverse
+        return User::with('roles')->get();
+    }
+
+    
+
+    
 }
