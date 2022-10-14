@@ -26,6 +26,8 @@ feather.replace();
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('products', require('./pages/products/Index.vue').default);
 Vue.component('employees', require('./pages/employees/Index.vue').default);
+Vue.component('customers', require('./pages/customers/Index.vue').default);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application

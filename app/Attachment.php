@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Type extends Model
+class Attachment extends Model
 {
     protected $fillable = [
-        'product_id', 'name'
+        'product_id', 'path'
     ];
 }

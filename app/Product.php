@@ -11,6 +11,14 @@ class Product extends Model
     ];
 
     public function type(){
-        return $this -> belongsTo('App\type', 'id', 'type_id');
+        return $this -> hasOne('App\Type');
+    }
+
+    public function types(){
+        return $this-> hasMany('App\Type');
+    }
+
+    public function attachment(){
+        return $this-> hasOne('App\Attachment');
     }
 }

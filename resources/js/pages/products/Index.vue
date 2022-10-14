@@ -1,7 +1,8 @@
 <template>
+<!-- eslint-disable vue/no-use-v-if-with-v-for,vue/no-confusing-v-for-v-if -->
 <div>
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
-            <h1 class="h2">Products</h1>
+            <h1 class="h2">PRODUCTS</h1>
             <div class="btn-toolbar mb-2 mb-md-0">
                 <button type="button" @click="openModal()" class="btn btn-sm btn-outline-primary">Add New Product</button>
             </div> 
@@ -10,15 +11,17 @@
         <table class="table">
             <thead>
                 <tr>
-                <th scope="col">Product Name</th>
-                <th scope="col">Product Details</th>
+                <th scope="col">Name </th>
+                <th scope="col">Details</th>
+                <th scope="col">Types</th>
                 <th scope="col">Option</th>
                 </tr>
             </thead>
             <tbody>
                 <tr v-if="loading === false && products" v-for="(product,i) in products.data" :key="i">
-                    <td>{{ product.name }}</td>
+                    <td><a :href="'/storage/' + product.attachment.path" target="_blank">{{ product.name }}</a></td>
                     <td>{{ product.detail }}</td>
+                    <td>{{ product.type.name }}</td>
                     <td>
                         <button @click="modifyProduct(product)" class="btn btn-primary">Edit</button>
                         <button @click="deleteProduct(i, product.id)" class="btn btn-danger">Delete</button>

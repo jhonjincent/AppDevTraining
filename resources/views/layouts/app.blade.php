@@ -156,18 +156,25 @@
                         Products
                       </a>
                     </li>
-                   
-                    
-                    <li class="nav-item">
-                      <a class="nav-link" href="{{ route('users.list') }}">
-                        <span data-feather="users" class="align-text-bottom"></span>
-                        Users
-                      </a>
-                    </li>
+
                     <li class="nav-item">
                       <a class="nav-link" href="{{ route('employees') }}">
                         <span data-feather="users" class="align-text-bottom"></span>
                         Employees
+                      </a>
+                    </li>
+
+                    <li class="nav-item">
+                      <a class="nav-link" href="{{ route('customers') }}">
+                        <span data-feather="users" class="align-text-bottom"></span>
+                        Customers
+                      </a>
+                    </li>
+
+                    <li class="nav-item">
+                      <a class="nav-link" href="{{ route('users.list') }}">
+                        <span data-feather="users" class="align-text-bottom"></span>
+                        Users
                       </a>
                     </li>
                     

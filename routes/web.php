@@ -66,4 +66,6 @@ Route::get('/users/list', 'userController@index')->name('users.list') -> middlew
 
 Route::get('/products','ProductController@index')->name('products.list') -> middleware('auth');
 
-Route::get('/employees', 'employeeController@index')->name('employees') -> middleware('auth');;
+Route::get('/employees', 'employeeController@index')->name('employees') -> middleware('auth');
+
+Route::get('/customers', 'CustomerController@index')->name('customers') -> middleware('auth');

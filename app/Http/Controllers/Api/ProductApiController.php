@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Product;
+use DB;
+
 
 class ProductApiController extends Controller
 {
@@ -15,7 +17,8 @@ class ProductApiController extends Controller
      */
     public function index()
     {
-        return Product::orderBy('id','desc')->paginate(10);
+       
+        return Product::with('type', 'types', 'attachment')->orderBy('id', 'desc')->paginate(10);
     }
 
     /**
@@ -29,11 +32,26 @@ class ProductApiController extends Controller
         $request -> validate([
             'name' => 'required',
             'detail' => 'required',
+            'type'=> 'required',
+            'attachment'=> 'mimes:jpeg,bmp,png,gif,tiff,svg,pdf|max:10240',
         ]);
 
-        $product = Product::create($request -> all());
+        $path = $request->file('attachment')->store('attachments', 'public');
 
-        return $product;
+        DB::beginTransaction();
+
+        $product = Product::create($request -> all());
+        $product->type()->create(([
+            'name'=>$request->type,
+        ]));
+
+        $product->attachment()->create(([
+            'path'=>$path,
+        ]));
+
+        DB::commit();
+
+        return $product->load('type', 'attachment');
     }
 
     /**
@@ -59,10 +77,12 @@ class ProductApiController extends Controller
         $request->validate([
             'name' => 'required',
             'detail' => 'required',
+            
         ]);
 
         $product->name = $request->name;
         $product->detail = $request->detail;
+
         $product->save();
 
         return $product;

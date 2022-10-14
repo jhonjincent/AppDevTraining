@@ -17,3 +17,7 @@ const mix = require('laravel-mix');
     'resources/js/feather.min.js'
 ], 'public/js')
     .sass('resources/sass/app.scss', 'public/css'); 
+
+    if(!mix.inProduction()){
+        mix.browserSync('http://127.0.0.1:8000');
+    }

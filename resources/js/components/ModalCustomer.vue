@@ -1,9 +1,9 @@
 <template>
-    <div class="modal fade" id="modalProduct" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modalCustomer" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">New Product</h5>
+        <h5 class="modal-title" id="exampleModalLabel">New Customer</h5>
         <button type="button" class="close" @click="close()" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -11,25 +11,25 @@
       <div class="modal-body">
         <form>
 
-          <!-- Product Name -->
+          <!-- Customer Name -->
           <div class="form-group" :class="{ ' has-danger' : errors.name }">
-            <label class="col-form-label">Product Name:</label>
-            <input type="text" :class="{ 'is-invalid' : errors.name }" class="form-control acc_format" id="name"  v-model="product.name" placeholder="Enter Name">
+            <label class="col-form-label">Customer Name:</label>
+            <input type="text" :class="{ 'is-invalid' : errors.name }" class="form-control acc_format" id="name"  v-model="customer.name" placeholder="Enter Name">
             <div v-if="errors.name" class="invalid-feedback">{{ errors.name[0] }}</div>
           </div>
 
-          <!-- Details -->
-          <div class="form-group" :class="{ ' has-danger' : errors.detail }">
-            <label class="col-form-label">Details:</label>
-            <textarea class="form-control" v-model="product.detail" :class="{ 'is-invalid' : errors.detail }" id="message-text" placeholder="Enter Detail"></textarea>
-            <div v-if="errors.detail" class="invalid-feedback">{{ errors.detail[0] }}</div>
+          <!-- Branch -->
+          <div class="form-group" :class="{ ' has-danger' : errors.branch }">
+            <label class="col-form-label">Branch:</label>
+            <input type="text" :class="{ 'is-invalid' : errors.branch }" class="form-control acc_format" id="branch"  v-model="customer.branch" placeholder="Enter Branch">
+            <div v-if="errors.branch" class="invalid-feedback">{{ errors.branch[0] }}</div>
           </div>
 
           <!-- Types -->
-          <div class="form-group" :class="{ ' has-danger' : errors.type }">
-            <label class="col-form-label">Type:</label>
-            <input type="text" :class="{ 'is-invalid' : errors.type }" class="form-control acc_format" id="type"  v-model="product.type" placeholder="Enter Type">
-            <div v-if="errors.type" class="invalid-feedback">{{ errors.type[0] }}</div>
+          <div class="form-group" :class="{ ' has-danger' : errors.address }">
+            <label class="col-form-label">Address:</label>
+            <input type="text" :class="{ 'is-invalid' : errors.address }" class="form-control acc_format" id="description"  v-model="customer.address" placeholder="Enter Description">
+            <div v-if="errors.address" class="invalid-feedback">{{ errors.address[0] }}</div>
           </div>
 
           <!-- Attachments -->
@@ -37,8 +37,8 @@
           <label>Attachment</label>
           <div></div>
           <div class="custom-file">
-          <input type="file" ref="attachment" @change="handleFileAttachment()" accept="image/*,application/pdf" :class="{ 'is-invalid' : errors.attachment }">
-          <div v-if="errors.attachment" class="invalid-feedback">{{ errors.attachment[0] }}</div>
+          <input type="file" ref="custattachment" @change="handleFileAttachment()" accept="image/*,application/pdf" :class="{ 'is-invalid' : errors.custattachment }">
+          <div v-if="errors.custattachment" class="invalid-feedback">{{ errors.custattachment[0] }}</div>
           </div>
           </div>
           
@@ -47,7 +47,7 @@
 
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" @click="close()" data-dismiss="modal">Close</button>
-        <button type="button" v-if="isForEdit === true" class="btn btn-primary" @click="update(product.id)">Update</button> 
+        <button type="button" v-if="isForEdit === true" class="btn btn-primary" @click="update(customer.id)">Update</button> 
         <button type="button" v-if="isForEdit === false" class="btn btn-primary" @click="store()">Submit</button>
       </div>
     </div>
@@ -64,7 +64,7 @@ export default {
             default: false
         },
 
-        product: {
+        customer: {
       type: Object,
       default: {}
     },
@@ -87,14 +87,14 @@ export default {
     watch: {
         show(){
             if(this.show === true){
-                $('#modalProduct')
+                $('#modalCustomer')
                 .modal({
                     backdrop: "static",
                     keyboard: false
                 });
             }
             else{
-                $('#modalProduct')
+                $('#modalCustomer')
                 .modal("hide");
             }
         }
@@ -104,33 +104,31 @@ export default {
     methods: {
         close(){
             this.$emit('close', false);
-            $('#modalProduct').modal("hide");
+            $('#modalCustomer').modal("hide");
             this.dowloading = false
         },
 
         store(){
             console.log('check if store is triggered')
 
-            // form data
             let formData = new FormData();
-let attachment = this.$refs['attachment']['files'][0];
-formData.append('attachment', attachment);
-if (this.product.name) formData.append('name', this.product.name);
-if (this.product.detail) formData.append('detail', this.product.detail);
-if (this.product.type) formData.append('type', this.product.type);
+            let custattachment = this.$refs['custattachment']['files'][0];
+            formData.append('custattachment', custattachment);
+            if (this.customer.name) formData.append('name', this.customer.address);
+            if (this.customer.branch) formData.append('branch', this.customer.branch);
+            if (this.customer.address) formData.append('address', this.customer.address);
 
-axios.post(`api/products`,
-formData, {
-headers: {
-'Content-Type': 'multipart/form-data'
-}
-})
-            // // axios.post('api/products',{
-            // //     name: this.product.name,
-            // //     detail: this.product.detail,
-            // //     type: this.product.type
+            axios.post(`api/customers`,
+            formData, {
+            headers: {
+            'Content-Type': 'multipart/form-data'
+            }
+            })
 
-            
+            // axios.post('api/customers',{
+            //     name: this.customer.name,
+            //     branch: this.customer.branch,
+            //     address: this.customer.address,
 
             // })
             .then(response => {
@@ -147,9 +145,9 @@ headers: {
         },
 
         update(id){
-          axios.patch(`api/products/${id}`, {
-                name: this.product.name,
-                detail: this.product.detail,
+          axios.patch(`api/customers/${id}`, {
+                name: this.customer.name,
+                branch: this.customer.branch,
                 
         })
         .then(response => {
@@ -163,17 +161,12 @@ headers: {
                 if(error.response.status === 422){
                     this.errors = error.response.data.errors;
                 }
-                else if(error.response.status === 500){
-                  alert('something went wrong');
-                }
-                
             })
         },
 
         handleFileAttachment(){
-        this.attachment = this.$refs['attachment']['files'][0];
+        this.custattachment = this.$refs['custattachment']['files'][0];
         },
-
     }
 }
 </script>
